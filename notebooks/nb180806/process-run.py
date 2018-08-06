@@ -159,7 +159,7 @@ class scheduler:
 
     def space(self, num_columns):
         for i in range(num_columns):
-            print('%10s' % ' ', end='')
+            print('%10s' % ' ', end=' ')
 
     def check_if_done(self):
         if len(self.proc_info[self.curr_proc][PROC_CODE]) == 0:
@@ -184,11 +184,11 @@ class scheduler:
         self.move_to_running(STATE_READY)
 
         # OUTPUT: headers for each column
-        print('%s' % 'Time', end='')
+        print('%s' % 'Time', end=' ')
         for pid in range(len(self.proc_info)):
-            print('%10s' % ('PID:%2d' % (pid)), end='')
-        print('%10s' % 'CPU', end='')
-        print('%10s' % 'IOs', end='')
+            print('%10s' % ('PID:%2d' % (pid)), end=' ')
+        print('%10s' % 'CPU', end=' ')
+        print('%10s' % 'IOs', end=' ')
         print('')
 
         # init statistics
@@ -229,24 +229,24 @@ class scheduler:
 
             # OUTPUT: print what everyone is up to
             if io_done:
-                print('%3d*' % clock_tick, end='')
+                print('%3d*' % clock_tick, end=' ')
             else:
-                print('%3d ' % clock_tick, end='')
+                print('%3d ' % clock_tick, end=' ')
             for pid in range(len(self.proc_info)):
                 if pid == self.curr_proc and instruction_to_execute != '':
-                    print('%10s' % ('RUN:'+instruction_to_execute), end='')
+                    print('%10s' % ('RUN:'+instruction_to_execute), end=' ')
                 else:
-                    print('%10s' % (self.proc_info[pid][PROC_STATE]), end='')
+                    print('%10s' % (self.proc_info[pid][PROC_STATE]), end=' ')
             if instruction_to_execute == '':
-                print('%10s' % ' ', end='')
+                print('%10s' % ' ', end=' ')
             else:
-                print('%10s' % 1, end='')
+                print('%10s' % 1, end=' ')
             num_outstanding = self.get_ios_in_flight(clock_tick)
             if num_outstanding > 0:
-                print('%10s' % str(num_outstanding), end='')
+                print('%10s' % str(num_outstanding), end=' ')
                 io_busy += 1
             else:
-                print('%10s' % ' ', end='')
+                print('%10s' % ' ', end=' ')
             print('')
 
             # if this is an IO instruction, switch to waiting state
@@ -299,7 +299,7 @@ s = scheduler(options.process_switch_behavior, options.io_done_behavior, options
 for p in options.process_list.split(','):
     s.load(p)
 
-if options.solve == False:
+if options.solve is False:
     print('Produce a trace of what would happen when you run these processes:')
     for pid in range(s.get_num_processes()):
         print('Process %d' % pid)
