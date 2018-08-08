@@ -2,11 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int
-main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     printf("hello world (pid:%d)\n", (int) getpid());
     int rc = fork();
+    printf("this is process %d my rc is %d\n", (int)getpid(), rc);
     if (rc < 0) {
         // fork failed; exit
         fprintf(stderr, "fork failed\n");
