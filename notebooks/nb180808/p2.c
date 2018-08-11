@@ -3,9 +3,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-int
-main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     printf("hello world (pid:%d)\n", (int) getpid());
     int rc = fork();
     if (rc < 0) {
@@ -15,7 +13,7 @@ main(int argc, char *argv[])
     } else if (rc == 0) {
         // child (new process)
         printf("hello, I am child (pid:%d)\n", (int) getpid());
-	sleep(1);
+	    sleep(3);
     } else {
         // parent goes down this path (original process)
         int wc = wait(NULL);
