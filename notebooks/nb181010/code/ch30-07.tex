@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{caption}
+
+\begin{document}
+
+\begin{table}[h!]
+    \begin{center}
+        \caption*{Thread Trace: (BUGGED) Producer/Consumer - Single CV and If}
+        \label{tab:table1}
+        \begin{tabular}{r|cl|cl|cl|c|l}
+            \textit{t} & $T_{c1}$ & State & $T_{c2}$ & State & $T_{p}$ & State & Count & \textit{Comment}\\
+            \hline
+            1  & c1 & Running &    & Ready   &    & Ready   & 0 &  \\
+            2  & c2 & Running &    & Ready   &    & Ready   & 0 &  \\
+            3  & c3 & Asleep  &    & Ready   &    & Ready   & 0 &  Buffer empty; must sleep \\  \hline
+            4  &    & Asleep  &    & Ready   & p1 & Running & 0 &  \\
+            5  &    & Asleep  &    & Ready   & p2 & Running & 0 &  \\
+            6  &    & Asleep  &    & Ready   & p4 & Running & 1 &  Buffer now full \\
+            7  &    & Ready   &    & Ready   & p5 & Running & 1 &  $T_{c1}$ awoken \\
+            8  &    & Ready   &    & Ready   & p6 & Running & 1 &  \\
+            9  &    & Ready   &    & Ready   & p1 & Running & 1 &  \\
+            10 &    & Ready   &    & Ready   & p2 & Running & 1 &  \\
+            11 &    & Ready   &    & Ready   & p3 & Asleep  & 1 &  Buffer full; must sleep \\  \hline
+            12 &    & Ready   & c1 & Running &    & Asleep  & 1 &  $T_{c2}$ sneaks in ... \\
+            13 &    & Ready   & c2 & Running &    & Asleep  & 1 &  \\
+            14 &    & Ready   & c4 & Running &    & Asleep  & 0 &  ... and grabs the data \\
+            15 &    & Ready   & c5 & Running &    & Ready   & 0 &  $T_{p}$ awoken \\
+            16 &    & Ready   & c6 & Running &    & Ready   & 0 &  \\
+            17 &    & Ready   & c1 & Running &    & Ready   & 0 &  \\
+            18 &    & Ready   & c2 & Running &    & Ready   & 0 &  \\
+            19 &    & Ready   & c3 & Asleep  &    & Ready   & 0 &  Buffer empty; must sleep \\  \hline
+            20 & c4 & Running &    & Ready   &    & Ready   & 0 &  Oops! No data... \\  \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\end{document}

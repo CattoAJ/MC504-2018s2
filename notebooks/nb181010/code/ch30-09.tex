@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{caption}
+
+\begin{document}
+
+\begin{table}[h!]
+    \begin{center}
+        \caption*{Thread Trace: (BUGGED) Producer/Consumer - Single CV and While}
+        \label{tab:table1}
+        \begin{tabular}{r|cl|cl|cl|c|l}
+            \textit{t} & $T_{c1}$ & State & $T_{c2}$ & State & $T_{c3}$ & State & Count & \textit{Comment}\\
+            \hline
+            1  & c1 & Running &    & Ready   &    & Ready   & 0 &  \\
+            2  & c2 & Running &    & Ready   &    & Ready   & 0 &  \\
+            3  & c3 & Asleep  &    & Ready   &    & Ready   & 0 &  Buffer empty; must sleep \\  \hline
+            4  &    & Asleep  & c1 & Running &    & Ready   & 0 &  \\
+            5  &    & Asleep  & c2 & Running &    & Ready   & 0 &  \\
+            6  &    & Asleep  & c3 & Asleep  &    & Ready   & 0 &  Buffer empty; must sleep \\  \hline
+            7  &    & Asleep  &    & Asleep  & p1 & Running & 0 &  \\
+            8  &    & Asleep  &    & Asleep  & p2 & Running & 0 &  \\
+            9  &    & Asleep  &    & Asleep  & p4 & Running & 1 &  Buffer now full \\
+            10 &    & Ready   &    & Asleep  & p5 & Running & 1 &  $T_{c1}$ awoken \\
+            11 &    & Ready   &    & Asleep  & p6 & Running & 1 &  \\
+            12 &    & Ready   &    & Asleep  & p1 & Running & 1 &  \\
+            13 &    & Ready   &    & Asleep  & p2 & Running & 1 &  \\
+            14 &    & Ready   &    & Asleep  & p3 & Asleep  & 1 &  Buffer full; must sleep \\  \hline
+            15 & c2 & Running &    & Asleep  &    & Asleep  & 1 &  Recheck condition \\
+            16 & c4 & Running &    & Asleep  &    & Asleep  & 0 &  $T_{c1}$ grabs data \\
+            17 & c5 & Running &    & Ready   &    & Asleep  & 0 &  Oops! Woke $T_{c2}$ up \\
+            18 & c6 & Running &    & Ready   &    & Asleep  & 0 &  \\
+            19 & c1 & Running &    & Ready   &    & Asleep  & 0 &  \\
+            20 & c2 & Running &    & Ready   &    & Asleep  & 0 &  \\
+            21 & c3 & Asleep  &    & Ready   &    & Asleep  & 0 &  Buffer empty; must sleep \\  \hline
+            22 &    & Asleep  & c2 & Running &    & Asleep  & 0 &  \\
+            23 &    & Asleep  & c3 & Asleep  &    & Asleep  & 0 &  Everyone asleep... \\ \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\end{document}
